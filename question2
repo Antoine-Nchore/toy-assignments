@@ -1,0 +1,19 @@
+/Assignment 2
+
+function speedDetector(speed) {
+    const speedLimit = 70;
+    const pointsPerExcess = 5;
+  
+    if (speed < speedLimit) {
+      console.log("OK");
+    } else {
+      const demeritPoints = Math.floor((speed - speedLimit) / pointsPerExcess);
+      
+      if (demeritPoints >= 12) {
+        console.log("License suspended");
+      } else {
+        console.log("Points: " + demeritPoints);
+      }
+    }
+  }
+  
