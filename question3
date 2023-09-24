@@ -1,0 +1,80 @@
+//Question 3
+const taxRates = {
+  threshold: 24333,
+  rate1: 0.1,
+  rate2: 0.25,
+  rate3: 0.3,
+};
+
+// NHIF rates
+
+const nhifRates = {
+  threshold: 6000,
+  rate1: 150,
+  rate2: 300,
+  rate3: 400,
+};
+
+// NSSF rates
+const nssfRates = {
+  employeeRate: 0.06,
+  employerRate: 0.06,
+};
+
+// Function to calculate payee
+
+function calculatePayee(basicSalary) {
+  if (basicSalary <= taxRates.threshold) {
+    return basicSalary * taxRates.rate1;
+  } else if (basicSalary <= 111833) {
+    return taxRates.threshold * taxRates.rate1 + (basicSalary - taxRates.threshold) * taxRates.rate2;
+  } else {
+    return (
+      taxRates.threshold * taxRates.rate1 +
+      (111833 - taxRates.threshold) * taxRates.rate2 +
+      (basicSalary - 111833) * taxRates.rate3
+    );
+  }
+}
+
+// Function to calculate NHIF deductions based on the basic salary
+
+function calculateNHIF(basicSalary) {
+  if (basicSalary <= nhifRates.threshold) {
+    return nhifRates.rate1;
+  } else if (basicSalary <= 5999) {
+    return nhifRates.rate2;
+  } else {
+    return nhifRates.rate3;
+  }
+}
+
+// Function to calculate NSSF deductions based on the basic salary
+
+function calculateNSSF(basicSalary) {
+  return basicSalary * nssfRates.employeeRate;
+}
+
+// Function to calculate gross salary
+
+function calculateGrossSalary(basicSalary, benefits) {
+  return basicSalary + benefits;
+}
+
+// Function to calculate net salary
+
+function calculateNetSalary(basicSalary, benefits) {
+  const payee = calculatePayee(basicSalary);
+  const nhif = calculateNHIF(basicSalary);
+  const nssf = calculateNSSF(basicSalary);
+  const grossSalary = calculateGrossSalary(basicSalary, benefits);
+  const netSalary = grossSalary - (payee + nhif + nssf);
+
+  return {
+    payee,
+    nhif,
+    nssf,
+    grossSalary,
+    netSalary,
+  };
+}
